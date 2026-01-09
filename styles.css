@@ -137,8 +137,8 @@ select {
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 12px;
-  white-space: nowrap;
-  overflow: hidden;
+  white-space: normal;
+  overflow: visible;
   text-overflow: ellipsis;
 }
 
@@ -195,7 +195,25 @@ textarea { resize: vertical; }
 .modal.hidden { display: none; }
 .modal-content { background: #0f1112; border: 1px solid var(--border); padding: 20px; border-radius: 12px; width: 320px; }
 .modal-content h3 { margin: 0 0 10px 0; }
-.modal-content input { margin-bottom: 10px; }
+.modal-content input {
+  width: 100%;
+  background: linear-gradient(180deg,#0f1112,#0b0c0d);
+  color: var(--light);
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  caret-color: var(--light);
+}
+
+.modal-content input::placeholder { color: var(--muted); opacity: 0.95; }
+
+/* Ensure browser autofill text is visible */
+.modal-content input:-webkit-autofill,
+.modal-content input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--light) !important;
+  box-shadow: 0 0 0px 1000px #0f1112 inset !important;
+}
 .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
 .auth-error { color: #ffb4b4; margin-top: 8px; font-size: 0.95rem; }
 
