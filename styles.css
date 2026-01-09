@@ -116,11 +116,29 @@ body {
 .grid { display: grid; grid-template-columns: 3fr 1fr; gap: 12px; }
 input[type=text], select, textarea {
   width: 100%;
-  background: #101114;
+  background: linear-gradient(180deg,#0f1112,#0b0c0d);
   color: var(--light);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255,255,255,0.04);
   border-radius: 8px;
   padding: 10px 12px;
+  font-size: 0.98rem;
+}
+
+/* Make selects more visible and add custom arrow */
+select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 38px; /* room for arrow */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 24 24'><path fill='%23e6e6e6' d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+}
+
+select:focus, input[type=text]:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(218,2,6,0.12);
+  border-color: rgba(218,2,6,0.4);
 }
 textarea { resize: vertical; }
 
