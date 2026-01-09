@@ -120,18 +120,18 @@ function seedIfEmpty() {
   const d = todayStr();
   const samples = [
     {
-      title: "BREAKING: Ruben Amorim sacked after 2-1 defeat to West Ham",
+      title: "BREAKING: Ruben Amorim sacked after 1-1 draw to leeds",
       category: "News",
-      content: "Manchester United have parted company with manager Ruben Amorim following Sunday’s 2-1 Premier League loss at the London Stadium. The board met late on Sunday evening and agreed a change was needed with the club sitting 14th in the table. First-team coach Ruud van Nistelrooy will take training on Monday morning while the club begin the search for a permanent successor.",
+      content: "Manchester United have parted ways with manager Ruben Amorim following Sunday’s 1-1 Premier League draw with leeds. Under 18's-team coach Darren Fletcher will take charge.",
       date: d,
       createdAt: Date.now() - 1000 * 60 * 60
     },
     {
-      title: "Match report: West Ham 2-1 United – late drama costs Amorim",
+      title: "Match report: leeds 1-1 United – lack of results costs Amorim",
       category: "Match",
-      content: "A 94th-minute Tomas Soucek winner condemned United to defeat in east London. Alejandro Garnacho had cancelled out Bowen’s first-half opener, but United wilted under late pressure. The result leaves United with just two wins from their last nine league games and intensifies scrutiny on the Portuguese coach’s position.",
+      content: "cunh's equalizer was not enough to save Amorim",
       date: d,
-      createdAt: Date.now() - 1000 * 60 * 30
+      createdAt: Date.now() - 1000* 60* 30
     },
     {
       title: "Training focus ahead of weekend fixture",
