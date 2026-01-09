@@ -150,6 +150,7 @@ datePicker.addEventListener("change", render);
 if (authBtn) {
   authBtn.addEventListener('click', () => {
     if (isAuth()) return setAuth(false);
+    if (!authModal) return alert('Auth modal not available');
     authModal.classList.remove('hidden');
     authPassword.value = '';
     authError.textContent = '';
