@@ -113,7 +113,10 @@ body {
 .new-post { margin-bottom: 20px; }
 .new-post h2, .posts h2 { margin: 4px 0 16px 0; }
 
-.grid { display: grid; grid-template-columns: 3fr 1fr; gap: 12px; }
+.grid { display: grid; grid-template-columns: 1fr 220px; gap: 12px; }
+/* allow grid children (inputs) to shrink properly instead of overflowing */
+.grid > * { min-width: 0; }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
 input[type=text], select, textarea {
   width: 100%;
   background: linear-gradient(180deg,#0f1112,#0b0c0d);
@@ -128,11 +131,15 @@ input[type=text], select, textarea {
 select {
   -webkit-appearance: none;
   appearance: none;
-  padding-right: 38px; /* room for arrow */
+  min-width: 160px;
+  padding-right: 36px; /* room for arrow */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 24 24'><path fill='%23e6e6e6' d='M7 10l5 5 5-5z'/></svg>");
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 select:focus, input[type=text]:focus, textarea:focus {
