@@ -1,7 +1,5 @@
 const STORAGE_KEY = "mu_daily_blog_posts";
 const TEAM = "Manchester United";
-const AUTHOR_PASSWORD = "admin123"; // change this to your desired password
-const AUTH_KEY = "mu_author_auth";
 
 const searchInput = document.getElementById("search");
 const datePicker = document.getElementById("datePicker");
@@ -12,12 +10,6 @@ const contentInput = document.getElementById("content");
 const postsHeading = document.getElementById("postsHeading");
 const postsList = document.getElementById("postsList");
 const countEl = document.getElementById("count");
-const authModal = document.getElementById("authModal");
-const authBtn = document.getElementById("authBtn");
-const authForm = document.getElementById("authForm");
-const authPassword = document.getElementById("authPassword");
-const authCancel = document.getElementById("authCancel");
-const authError = document.getElementById("authError");
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 const formatTime = (d) => new Date(d).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -49,13 +41,13 @@ function postCard(p) {
 
   const actions = document.createElement("div");
   actions.className = "post-actions";
-  if (isAuth()) {
-    const delBtn = document.createElement("button");
-    delBtn.className = "icon-btn";
-    delBtn.textContent = "Delete";
-    delBtn.addEventListener("click", () => deletePost(p.id));
-    actions.appendChild(delBtn);
-  }
+
+  const delBtn = document.createElement("button");
+  delBtn.className = "icon-btn";
+  delBtn.textContent = "Delete";
+  delBtn.addEventListener("click", () => deletePost(p.id));
+
+  actions.appendChild(delBtn);
   header.appendChild(badge);
   header.appendChild(actions);
 
@@ -75,26 +67,6 @@ function postCard(p) {
   el.appendChild(meta);
   el.appendChild(body);
   return el;
-}
-
-function isAuth() {
-  return localStorage.getItem(AUTH_KEY) === "1";
-}
-
-function setAuth(val) {
-  if (val) localStorage.setItem(AUTH_KEY, "1");
-  else localStorage.removeItem(AUTH_KEY);
-  updateAuthUI();
-}
-
-function updateAuthUI() {
-  if (!authBtn) return;
-  authBtn.textContent = isAuth() ? "Logout" : "Author Login";
-  const publishBtn = postForm.querySelector('button[type=submit]');
-  if (publishBtn) {
-    publishBtn.disabled = !isAuth();
-    publishBtn.classList.toggle('disabled', !isAuth());
-  }
 }
 
 function render() {
@@ -132,10 +104,6 @@ postForm.addEventListener("submit", (e) => {
   const content = contentInput.value.trim();
   const category = categorySelect.value;
   if (!title || !content) return;
-  if (!isAuth()) {
-    alert('You must be logged in as the author to publish posts.');
-    return;
-  }
   addPost({ title, category, content });
   titleInput.value = "";
   contentInput.value = "";
@@ -146,61 +114,31 @@ postForm.addEventListener("submit", (e) => {
 searchInput.addEventListener("input", render);
 datePicker.addEventListener("change", render);
 
-// Authentication UI handlers
-if (authBtn) {
-  authBtn.addEventListener('click', () => {
-    if (isAuth()) return setAuth(false);
-    if (!authModal) return alert('Auth modal not available');
-    authModal.classList.remove('hidden');
-    authPassword.value = '';
-    authError.textContent = '';
-    authPassword.focus();
-  });
-}
-if (authCancel) {
-  authCancel.addEventListener('click', () => authModal.classList.add('hidden'));
-}
-if (authForm) {
-  authForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const v = authPassword.value || '';
-    if (v === AUTHOR_PASSWORD) {
-      setAuth(true);
-      authModal.classList.add('hidden');
-    } else {
-      authError.textContent = 'Invalid password';
-    }
-  });
-}
-
-// ensure UI reflects auth state on load
-updateAuthUI();
-
 function seedIfEmpty() {
   const posts = loadPosts();
   if (posts.length) return;
   const d = todayStr();
   const samples = [
     {
+      title: "BREAKING: Ruben Amorim sacked after 1-1 draw to leeds",
+      category: "News",
+      content: "Manchester United have parted company with manager Ruben Amorim following Sunday’s 1-1 Premier League draw with leeds. The. Under 18's coach Darren Fletcher will take charge.",
+      date: d,
+      createdAt: Date.now() - 1000 * 60 * 60
+    },
+    {
+      title: "Match report: leeds 1-1 United – Cunha's equalizer wasnot enough to save Amorim",
+      category: "Match",
+      content: "A Cunha leveller was not enough to save Amorim following another disappointing darw in the  league.",
+      date: d,
+      createdAt: Date.now() - 1000 * 60 * 30
+    },
+    {
       title: "Training focus ahead of weekend fixture",
       category: "Training",
       content: "High-intensity drills and set-piece routines as the team prepares for the upcoming match.",
       date: d,
       createdAt: Date.now() - 1000 * 60 * 60
-    },
-    {
-      title: "Match preview: Key battles to watch",
-      category: "Match",
-      content: "Midfield control and wing play expected to be decisive. Confidence is building across the squad.",
-      date: d,
-      createdAt: Date.now() - 1000 * 60 * 30
-    },
-    {
-      title: "Transfer chatter: Academy prospects stepping up",
-      category: "Transfer",
-      content: "Attention on young talents earning minutes and impacting first-team dynamics.",
-      date: d,
-      createdAt: Date.now() - 1000 * 60 * 15
     }
   ];
   savePosts(samples.map(s => ({ id: s.createdAt, ...s })));
